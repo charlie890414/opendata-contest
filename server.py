@@ -81,7 +81,7 @@ def production(longitude,latitude):
 
 app = Flask(__name__)
  
-@app.route('/', methods=['POST'])
+@app.route('/', methods=['GET'])
 def hello_world():
     longitude = request.args.get('longitude')
     latitude = request.args.get('latitude')
