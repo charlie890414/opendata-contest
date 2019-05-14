@@ -23,7 +23,7 @@ def production(longitude,latitude):
     with open('./taiwan.geojson', encoding='utf-8') as json_file:
         FeatureCollection = json.load(json_file)["features"]
     target = None # "中壢區"
-    etarget = None
+    etarget = "NO DATA"
     point = json.loads('{"type": "Point", "coordinates": [ %s, %s ]}'%(longitude,latitude))
     # point = json.loads('{"type": "Point", "coordinates": [ 121.185419019000051, 25.012535921000032 ]}'
     for Feature in FeatureCollection:
@@ -82,7 +82,7 @@ def production(longitude,latitude):
     plt.plot(list(range(len(data))),data,'b-',label="True data")
     plt.plot(list(range(len(predict_data))),[x+50000 for x in predict_data],'r',dashes=[6, 2],label="Predict data")
     plt.xticks(list(range(len(predict_data))),xtrick, rotation=30)
-    plt.ylim(1e6,1e7)
+    plt.ylim(1e6,1e8)
     plt.legend(loc=0)
     fig.savefig(longitude+" "+latitude+".png")
 
