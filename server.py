@@ -17,8 +17,6 @@ from geojson_utils import point_in_multipolygon
 
 mypath = "./"
 
-files = sorted(listdir(mypath))
-
 def production(longitude,latitude):
 
     FeatureCollection = None
@@ -37,9 +35,11 @@ def production(longitude,latitude):
     xtrick = []
     predict_data = []
 
+    files = sorted(listdir(mypath))
     for f in files:
         fullpath = join(mypath, f)
         if isfile(fullpath) and 'fix' in fullpath:
+            print(fullpath)
             with open(fullpath, newline='', encoding="cp950") as csvfile:
                 rows = list(csv.reader(csvfile))
                 for row in rows:
