@@ -17,7 +17,7 @@ from geojson_utils import point_in_multipolygon
 
 mypath = "./"
 
-files = listdir(mypath)
+files = sorted(listdir(mypath))
 
 def production(longitude,latitude):
 
