@@ -7,7 +7,7 @@ import json
 
 from os import listdir
 from os.path import isfile, isdir, join
-from sklearn.linear_model import Ridge
+from sklearn.linear_model import LinearRegression
 
 import matplotlib.pyplot as plt
 
@@ -54,7 +54,7 @@ def production(longitude,latitude):
         predict = np.array(predict_data)
         time = np.array(list(range(len(predict_data))))
 
-        lm = Ridge(alpha = .5)
+        lm = LinearRegression()
         lm.fit(np.reshape(time, (len(time), 1)), np.reshape(predict, (len(predict), 1)))
 
         to_be_predicted = np.array([len(data)])
