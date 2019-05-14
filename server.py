@@ -13,14 +13,14 @@ from flask import Flask, request, send_file
 
 from geojson_utils import point_in_multipolygon
 
-mypath = "D:\\fake data"
+mypath = "./"
 
 files = listdir(mypath)
 
 def production(longitude,latitude):
 
     FeatureCollection = None
-    with open('D:\\fake data\\taiwan.geojson', encoding='utf-8') as json_file:
+    with open('./taiwan.geojson', encoding='utf-8') as json_file:
         FeatureCollection = json.load(json_file)["features"]
     target = None # "中壢區"
     etarget = None
