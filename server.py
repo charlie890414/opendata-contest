@@ -63,20 +63,26 @@ def production(longitude,latitude):
         predicted_sales = lm.predict(np.reshape(to_be_predicted, (len(to_be_predicted), 1)))
         predict_data.append(predicted_sales.tolist()[0][0])
 
-        with open("107年3季行政區不動產實價登錄建物成交單價中位數—按屋齡分_鄉鎮市區.csv", newline='', encoding="cp950") as csvfile:
-            rows = list(csv.reader(csvfile))
-            for row in rows:
-                if target in row:    
-                    print(row)                
-                    data.append(float(row[13]))
+        xtrick.append("107Y4S")
+
+        predict = np.array(predict_data)
+        time = np.array(list(range(len(predict_data))))
+
+        lm = LinearRegression()
+        lm.fit(np.reshape(time, (len(time), 1)), np.reshape(predict, (len(predict), 1)))
+
+        to_be_predicted = np.array([len(data)])
+        predicted_sales = lm.predict(np.reshape(to_be_predicted, (len(to_be_predicted), 1)))
+        predict_data.append(predicted_sales.tolist()[0][0])
+        
 
     print(json.dumps([data,predict_data,xtrick]))
     fig = plt.figure()
     plt.title(etarget)
     plt.plot(list(range(len(data))),data,'b-',label="True data")
     plt.plot(list(range(len(predict_data))),[x+50000 for x in predict_data],'r',dashes=[6, 2],label="Predict data")
-    plt.xticks(list(range(len(data))),xtrick, rotation=30)
-    plt.legend(loc=4)
+    plt.xticks(list(range(len(predict_data))),xtrick, rotation=30)
+    plt.legend(loc=0)
     fig.savefig(longitude+" "+latitude+".png")
 
 app = Flask(__name__)
