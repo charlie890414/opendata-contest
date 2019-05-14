@@ -49,6 +49,7 @@ def production(longitude,latitude):
                         predict_data.append(float(row[6]))
                         data.append(float(row[6]))
                         xtrick.append(row[-1])
+                        break
 
     if target:
         xtrick.append("107Y3S")
