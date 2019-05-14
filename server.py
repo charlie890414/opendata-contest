@@ -82,7 +82,6 @@ def production(longitude,latitude):
     plt.plot(list(range(len(data))),data,'b-',label="True data")
     plt.plot(list(range(len(predict_data))),[x+50000 for x in predict_data],'r',dashes=[6, 2],label="Predict data")
     plt.xticks(list(range(len(predict_data))),xtrick, rotation=30)
-    plt.ylim(1e6,1e8)
     plt.legend(loc=0)
     fig.savefig(longitude+" "+latitude+".png")
 
