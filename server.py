@@ -40,7 +40,7 @@ def production(longitude,latitude):
     for f in files:
         fullpath = join(mypath, f)
         if isfile(fullpath) and 'fix' in fullpath:
-            with open(fullpath, newline='', encoding="utf-8") as csvfile:
+            with open(fullpath, newline='', encoding="cp950") as csvfile:
                 rows = list(csv.reader(csvfile))
                 for row in rows:
                     if target in row:
