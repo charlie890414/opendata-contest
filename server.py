@@ -44,6 +44,8 @@ def production(longitude,latitude):
                 rows = list(csv.reader(csvfile))
                 for row in rows:
                     if target in row:
+                        if(row[6]==""):
+                            row[6]=0
                         predict_data.append(float(row[6]))
                         data.append(float(row[6]))
                         xtrick.append(row[-1])
