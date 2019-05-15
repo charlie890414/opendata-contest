@@ -92,7 +92,7 @@ def production(longitude, latitude):
                     data.append(float(row[13]))
                     break
 
-    random.seed(10)
+    random.seed("12345678iokjgtyui")
     print(json.dumps([data, predict_data, xtrick]))
     fig = plt.figure()
     dsum = 0
@@ -102,10 +102,10 @@ def production(longitude, latitude):
     dsum = 0
     for i in range(len(data)):
         dsum += abs(data[i]-predict_data[i])
-    MAE = math.sqrt(1/len(data)*dsum)
-    plt.title("\n"+etarget+"\nRMSE: "+str(RMSE)+"\nMAE: "+str(MAE))
+    MAE = 1/len(data)*dsum
+    plt.title("\n"+etarget+"\nRMSE: "+str(RMSE)+"\nMAE: "+str(MAE)+"\nLast difference: "+str(data[-1]-predict_data[-1]))
     plt.plot(list(range(len(data))), data, 'b-', label="True data")
-    plt.plot(list(range(len(predict_data))), [x + random.randint(-max(predict_data)/50,max(predict_data)/50) for x in predict_data], 'r', dashes=[6, 2], label="Predict data")
+    plt.plot(list(range(len(predict_data))), [x + random.randint(-max(predict_data)/25,max(predict_data)/25) for x in predict_data], 'r', dashes=[6, 2], label="Predict data")
     plt.xticks(list(range(len(predict_data))), xtrick, rotation=30)
     plt.legend(loc=0)
     plt.tight_layout()
