@@ -108,6 +108,7 @@ def production(longitude, latitude):
     plt.plot(list(range(len(predict_data))), [x + random.randint(-max(predict_data)/50,max(predict_data)/50) for x in predict_data], 'r', dashes=[6, 2], label="Predict data")
     plt.xticks(list(range(len(predict_data))), xtrick, rotation=30)
     plt.legend(loc=0)
+    plt.tight_layout()
     fig.savefig(longitude+" "+latitude+".png")
 
 
