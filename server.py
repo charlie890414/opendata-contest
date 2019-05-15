@@ -103,7 +103,7 @@ def production(longitude, latitude):
     for i in range(len(data)):
         dsum += abs(data[i]-predict_data[i])
     MAE = 1/len(data)*dsum
-    plt.title("\n"+etarget+"\nRMSE: "+str(RMSE)+"\nMAE: "+str(MAE)+"\nLast difference: "+str(data[-1]-predict_data[-1]))
+    plt.title("\n"+etarget+"\nRMSE: "+str(RMSE)+"\nMAE: "+str(MAE)+"\nLast difference: "+str(data[-1]-predict_data[-2]))
     plt.plot(list(range(len(data))), data, 'b-', label="True data")
     plt.plot(list(range(len(predict_data))), [x + random.randint(-max(predict_data)/25,max(predict_data)/25) for x in predict_data], 'r', dashes=[6, 2], label="Predict data")
     plt.xticks(list(range(len(predict_data))), xtrick, rotation=30)
