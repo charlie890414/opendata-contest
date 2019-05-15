@@ -62,7 +62,7 @@ def production(longitude, latitude):
     if target:
         xtrick.append("107Y3S")
 
-        predict = np.array(predict_data)
+        predict = np.array(data)
         time = np.array(list(range(len(predict_data))))
 
         lm = LinearRegression()
@@ -76,7 +76,15 @@ def production(longitude, latitude):
 
         xtrick.append("107Y4S")
 
-        predict = np.array(predict_data)
+        with open("107年3季行政區不動產實價登錄建物成交單價中位數—按屋齡分_鄉鎮市區.csv", newline='', encoding="cp950") as csvfile:
+            rows = list(csv.reader(csvfile))
+            for row in rows:
+                if target in row:
+                    print(row)
+                    data.append(float(row[13]))
+                    break
+
+        predict = np.array(data)
         time = np.array(list(range(len(predict_data))))
 
         lm = LinearRegression()
@@ -87,11 +95,11 @@ def production(longitude, latitude):
         predicted_sales = lm.predict(np.reshape(
             to_be_predicted, (len(to_be_predicted), 1)))
         predict_data.append(predicted_sales.tolist()[0][0])
-
-        with open("107年3季行政區不動產實價登錄建物成交單價中位數—按屋齡分_鄉鎮市區.csv", newline='', encoding="cp950") as csvfile:
+        
+        with open("107年4季行政區不動產實價登錄建物成交單價中位數—按屋齡分_鄉鎮市區.csv", newline='', encoding="cp950") as csvfile:
             rows = list(csv.reader(csvfile))
             for row in rows:
-                if target in row:
+                if target in row:                
                     print(row)
                     data.append(float(row[13]))
                     break
@@ -107,9 +115,10 @@ def production(longitude, latitude):
     for i in range(len(data)):
         dsum += abs(data[i]-predict_data[i])
     MAE = 1/len(data)*dsum
-    plt.title("\n"+etarget+"\nRMSE: "+str(RMSE)+"\nMAE: "+str(MAE)+"\nLast difference: "+str(data[-1]-predict_data[-2]))
+    plt.title("\n"+etarget+"\nRMSE: "+str(RMSE)+"\nMAE: "+str(MAE)+"\nLast difference: "+str(data[-1]-predict_data[-1]))
     plt.plot(list(range(len(data))), data, 'b-', label="True data")
     plt.plot(list(range(len(predict_data))), [x + random.randint(-max(predict_data)/25,max(predict_data)/25) for x in predict_data], 'r', dashes=[6, 2], label="Predict data")
+    
     plt.xticks(list(range(len(predict_data))), xtrick, rotation=30)
     plt.legend(loc=0)
     plt.tight_layout()
