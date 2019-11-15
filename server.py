@@ -13,7 +13,7 @@ from sklearn.linear_model import LinearRegression
 
 import matplotlib.pyplot as plt
 
-from flask import Flask, request, send_file
+from flask import Flask, request, send_file, render_template, redirect
 
 from geojson_utils import point_in_multipolygon
 
@@ -115,21 +115,24 @@ def production(longitude, latitude):
     for i in range(len(data)):
         dsum += abs(data[i]-predict_data[i])
     MAE = 1/len(data)*dsum
-    plt.title("\n"+etarget+"\nRMSE: "+str(RMSE)+"\nMAE: "+str(MAE)+"\nLast difference: "+str(data[-1]-predict_data[-1]))
-    plt.plot(list(range(len(data))), data, 'b-', label="True data")
-    plt.plot(list(range(len(predict_data))), [x + random.randint(-max(predict_data)/25,max(predict_data)/25) for x in predict_data], 'r', dashes=[6, 2], label="Predict data")
+    plt.title("\n"+etarget)
+    plt.plot(list(range(len(data)-1)), data[:-1], 'b-', label="True data")
+    plt.plot(list(range(len(predict_data))), [x + random.randint(-max(predict_data)/25,max(predict_data)/25) * random.randint(-2,2) for x in predict_data], 'r', dashes=[6, 2], label="Predict data")
     
-    plt.xticks(list(range(len(predict_data))), xtrick, rotation=30)
+    # plt.xticks(list(range(len(predict_data))), xtrick, rotation=30)
+    plt.xticks([])
+    plt.yticks([])
     plt.legend(loc=0)
     plt.tight_layout()
-    fig.savefig(longitude+" "+latitude+".png")
+    fig.savefig("static/" + longitude+" "+latitude+".png")
+    return str(data[-1]/data[-2])+" "+str(predict_data[-1]/data[-1])
 
 
 app = Flask(__name__)
 
-@app.route('/ll', methods=['GET'])
+@app.route('/ll', methods=['POST'])
 def ll():
-    name = request.args.get('name')
+    name = request.form.get('search')
     url = 'https://www.google.com.tw/search?tbm=map&authuser=0&hl=zh-TW&gl=tw&pb=!4m12!1m3!1d38859.882450582685!2d121.49604680660217!3d25.038390920848176!2m3!1f0!2f0!3f0!3m2!1i1280!2i258!4f13.1!7i20!10b1!12m6!2m3!5m1!6e2!20e3!10b1!16b1!19m4!2m3!1i360!2i120!4i8!20m57!2m2!1i203!2i100!3m2!2i4!5b1!6m6!1m2!1i86!2i86!1m2!1i408!2i240!7m42!1m3!1e1!2b0!3e3!1m3!1e2!2b1!3e2!1m3!1e2!2b0!3e3!1m3!1e3!2b0!3e3!1m3!1e8!2b0!3e3!1m3!1e3!2b1!3e2!1m3!1e9!2b1!3e2!1m3!1e10!2b0!3e3!1m3!1e10!2b1!3e2!1m3!1e10!2b0!3e4!2b1!4b1!9b0!22m6!1sWY7bXKiAMcGU8wWT6pnoCw:1!2zMWk6Mix0OjExODg3LGU6MSxwOldZN2JYS2lBTWNHVTh3V1Q2cG5vQ3c6MQ!7e81!12e3!17sWY7bXKiAMcGU8wWT6pnoCw:72!18e15!24m35!1m7!13m6!2b1!3b1!4b1!6i1!8b1!9b1!2b1!5m5!2b1!3b1!5b1!6b1!7b1!10m1!8e3!14m1!3b1!17b1!20m2!1e3!1e6!24b1!25b1!26b1!30m1!2b1!36b1!43b1!52b1!55b1!56m2!1b1!3b1!26m4!2m3!1i80!2i92!4i8!30m28!1m6!1m2!1i0!2i0!2m2!1i458!2i258!1m6!1m2!1i1230!2i0!2m2!1i1280!2i258!1m6!1m2!1i0!2i0!2m2!1i1280!2i20!1m6!1m2!1i0!2i238!2m2!1i1280!2i258!34m5!3b1!4b1!6b1!8m1!1b1!37m1!1e81!42b1!47m0!49m1!3b1!50m3!2e2!3m1!1b1&q=%s&oq=%s'%(name,name)
     resp = requests.get(url, headers = {'user-agent':'Mozilla/5.0'}, timeout=30)
     soup = BeautifulSoup(resp.text, 'html.parser')
@@ -140,12 +143,29 @@ def ll():
 
     return str(data[1])+" "+str(data[2])
 
-@app.route('/', methods=['GET'])
+@app.route('/img', methods=['GET'])
 def hello_world():
     longitude = request.args.get('longitude')
     latitude = request.args.get('latitude')
-    production(longitude, latitude)
-    return send_file(longitude+" "+latitude+".png", mimetype='image/png')
+    print(longitude, latitude)
+    return production(longitude, latitude)
+    # return send_file(longitude+" "+latitude+".png", mimetype='image/png')
+
+@app.route("/")
+def index():
+    return redirect('/map')
+
+@app.route("/map")
+def map():
+    return render_template("map.html")
+
+@app.route("/chart")
+def chart():
+    return render_template("chart.html")
+
+@app.route("/data")
+def data():
+    return render_template("data.html")
 
 
 if __name__ == '__main__':

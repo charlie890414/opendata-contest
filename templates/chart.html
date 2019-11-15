@@ -1,0 +1,127 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css"
+        integrity="sha256-46qynGAkLSFpVbEBog43gvNhfrOj+BmwXdxFgVK/Kvc=" crossorigin="anonymous" />
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <style>
+        nav {
+            top: 0%;
+            height: 10%;
+            background-color: white;
+        }
+
+
+        main {
+            top: 10%;
+            height: 80%;
+            background-color: white;
+        }
+
+        footer {
+            top: 90%;
+            height: 10%;
+            background-color: white;
+        }
+
+        div.row {
+            width: 100%;
+            height: 100%;
+        }
+
+        #pic {
+            width: 100%;
+        }
+
+        img {
+            height: 80%;
+        }
+
+        .row {
+            margin: 0%;
+        }
+
+        .form-rounded {
+            border-radius: 1rem;
+        }
+    </style>
+    <title>House$ 房價預測</title>
+</head>
+
+<body>
+    <nav>
+        <div class="row justify-content-around align-items-center">
+            <h1 style="color: orange;">House$ 房價預測</h1>
+        </div>
+    </nav>
+    <main>
+        <div class="up row justify-content-around align-items-center" style="top: 0%;height: 70%;">
+            <img src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="" srcset="" id="pic">
+        </div>
+        <div class="down row justify-content-around align-items-center" style="top: 0%;height: 30%;">
+            <div class="row" style="top: 0%;height: 50%;">
+                <h5 style="margin-left: 5%;">相較上月</h5>
+            </div>
+            <div class="row" style="top: 0%;height: 50%;">
+                <h5 style="margin-left: 5%;">未來漲幅</h5>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <div class="row justify-content-around align-items-center">
+            <a href="/map"><img src="static/map icon2.png" alt="" srcset=""></a>
+            <a href="/chart"><img src="static/chart icon.png" alt="" srcset=""></a>
+            <a href="/data"><img src="static/data icon2.png" alt="" srcset=""></a>
+        </div>
+    </footer>
+    <script>
+        function GETIMG() {
+            let settings = {
+                "url": "/img",
+                "method": "GET",
+                "timeout": 0,
+                "data": {
+                    "latitude": parseFloat(localStorage.LATITUDE),
+                    "longitude": parseFloat(localStorage.LONGITUDE),
+                }
+            };
+            $.ajax(settings).done(function (response) {
+                $("#pic").attr("src", "/static/" + localStorage.LONGITUDE + " " + localStorage.LATITUDE + ".png");
+
+                blue = parseFloat(response.split(" ")[0]);
+                red = parseFloat(response.split(" ")[1]);
+
+                console.log(blue,red);
+            });
+        }
+        $(document).ready(function () {
+            if (!localStorage.LatLng) {
+                navigator.geolocation.watchPosition((position) => {
+                    console.log(position.coords);
+                    LATITUDE = position.coords.latitude;
+                    LONGITUDE = position.coords.longitude;
+
+                    localStorage.LONGITUDE = LONGITUDE;
+                    localStorage.LATITUDE = LATITUDE;
+                });
+            }
+            GETIMG();
+        });
+    </script>
+</body>
+
+</html>
