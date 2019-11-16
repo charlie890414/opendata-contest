@@ -109,7 +109,6 @@
             };
             $.ajax(settings).done(function (response) {
                 console.log(response);
-                $("#pic").attr("src", "/static/" + localStorage.LONGITUDE + " " + localStorage.LATITUDE + ".png");
 
                 blue = parseInt(response.split(" ")[0]);
                 red = parseInt(response.split(" ")[1]);
@@ -128,7 +127,8 @@
                 }else{
                     $("#pic2").attr("src", "/static/down.png");
                 }
-
+                
+                $("#pic").attr("src", "/static/" + localStorage.LONGITUDE + " " + localStorage.LATITUDE + ".png");
                 console.log(blue, red);
             });
         }
