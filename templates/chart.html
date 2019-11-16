@@ -129,9 +129,9 @@
                 }
                 
                 $("#pic").attr("src", "/static/" + localStorage.LONGITUDE + " " + localStorage.LATITUDE + ".png");
-                $("#pic").onerror = function() {
+                img.onerror = function() {
                     if(Date.now() - ts < 10000) {
-                        setTimeout(function() { $("#pic").attr("src", "/static/" + localStorage.LONGITUDE + " " + localStorage.LATITUDE + ".png"); }, 1000);
+                        setTimeout(function() { img.src = src; }, 1000);
                     }
                 }
                 console.log(blue, red);
@@ -139,7 +139,7 @@
         }
         $(document).ready(function () {
             if (!localStorage.LatLng) {
-                navigator.geolocation.watchPosition((position) => {
+                navigator.geolocation.getCurrentPosition((position) => {
                     console.log(position.coords);
                     LATITUDE = position.coords.latitude;
                     LONGITUDE = position.coords.longitude;
