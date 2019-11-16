@@ -125,7 +125,7 @@ def production(longitude, latitude):
     plt.legend(loc=0)
     plt.tight_layout()
     fig.savefig("./static/" + longitude+" "+latitude+".png")
-    return str( (data[-1] - data[-2]) /data[-2]*100)+" "+str( (predict_data[-1] - data[-1]) /data[-1]*100)
+    return str( (data[-2] - data[-3]) /data[-3]*100)+" "+str( (predict_data[-1] - data[-1]) /data[-1]*100)
 
 
 app = Flask(__name__)
