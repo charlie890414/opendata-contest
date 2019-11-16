@@ -75,9 +75,17 @@
         <div class="down row justify-content-around align-items-center" style="top: 0%;height: 30%;">
             <div class="row" style="top: 0%;height: 50%;">
                 <h5 style="margin-left: 5%;">相較上月</h5>
+                <div style="position: absolute;right: 0px;margin-right: 5%;height: 8%;">
+                    <img src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="" srcset="" id="pic1" style="right:5%;position: absolute;top: -5;">
+                    <font id="t1" style="right: 50px;text-align:right;position: relative;font-size: 15;"></font>
+                </div>
             </div>
             <div class="row" style="top: 0%;height: 50%;">
                 <h5 style="margin-left: 5%;">未來漲幅</h5>
+                <div style="position: absolute;right: 0px;margin-right: 5%;height: 8%;">
+                    <img src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="" srcset="" id="pic2" style="right:5%;position: absolute;top: -5;">
+                    <font id="t2" style="right: 50px;text-align:right;position: relative;font-size: 15;"></font>
+                </div>
             </div>
         </div>
     </main>
@@ -100,12 +108,28 @@
                 }
             };
             $.ajax(settings).done(function (response) {
+                console.log(response);
                 $("#pic").attr("src", "/static/" + localStorage.LONGITUDE + " " + localStorage.LATITUDE + ".png");
 
-                blue = parseFloat(response.split(" ")[0]);
-                red = parseFloat(response.split(" ")[1]);
+                blue = parseInt(response.split(" ")[0]);
+                red = parseInt(response.split(" ")[1]);
 
-                console.log(blue,red);
+                $("#t1").text(blue+"%");
+                $("#t2").text(red+"%");
+
+                if(blue > 0){
+                    $("#pic1").attr("src", "/static/up.png");
+                }else{
+                    $("#pic1").attr("src", "/static/down.png");
+                }
+
+                if(red > 0){
+                    $("#pic2").attr("src", "/static/up.png");
+                }else{
+                    $("#pic2").attr("src", "/static/down.png");
+                }
+
+                console.log(blue, red);
             });
         }
         $(document).ready(function () {

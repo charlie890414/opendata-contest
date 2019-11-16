@@ -111,6 +111,12 @@
             });
         }
 
+        function save(){
+            let LatLng = map.getCenter();
+            localStorage.LONGITUDE = LatLng.lng();
+            localStorage.LATITUDE = LatLng.lat();
+        }
+
         function init() {
             navigator.geolocation.getCurrentPosition((position) => {
                 console.log(position.coords);
@@ -124,6 +130,7 @@
                     zoom: 16,
                     center: new google.maps.LatLng(LATITUDE, LONGITUDE)
                 });
+                setInterval(save, 500);
             });
         }
     </script>
