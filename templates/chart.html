@@ -129,6 +129,11 @@
                 }
                 
                 $("#pic").attr("src", "/static/" + localStorage.LONGITUDE + " " + localStorage.LATITUDE + ".png");
+                $("#pic").onerror = function() {
+                    if(Date.now() - ts < 10000) {
+                        setTimeout(function() { $("#pic").attr("src", "/static/" + localStorage.LONGITUDE + " " + localStorage.LATITUDE + ".png"); }, 1000);
+                    }
+                }
                 console.log(blue, red);
             });
         }
