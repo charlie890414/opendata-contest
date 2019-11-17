@@ -128,12 +128,8 @@
                     $("#pic2").attr("src", "/static/down.png");
                 }
                 
-                let settings = {
-                    "url": "/static/" + localStorage.LONGITUDE + " " + localStorage.LATITUDE + ".png",
-                    "method": "GET",
-                    "timeout": 0
-                };
-                $("#pic").attr("src", "/static/" + localStorage.LONGITUDE + " " + localStorage.LATITUDE + ".png");
+                setTimeout(( () => $("#pic").attr("src", "/static/" + localStorage.LONGITUDE + " " + localStorage.LATITUDE + ".png") ),5000);
+                
                 console.log(blue, red);
             });
         }
