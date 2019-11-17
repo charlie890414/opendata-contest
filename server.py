@@ -125,7 +125,7 @@ def production(longitude, latitude):
     plt.legend(loc=0)
     plt.tight_layout()
     fig.savefig("./static/" + longitude+" "+latitude+".png")
-    fig.close()
+    plt.close('all')
     return str( (data[-2] - data[-6]) /data[-6]*100)+" "+str( (predict_data[-1] - data[-2]) /data[-2]*100)
 
 
