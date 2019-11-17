@@ -70,7 +70,7 @@
     </nav>
     <main>
         <div class="up row justify-content-around align-items-center" style="top: 0%;height: 70%;">
-            <img src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="" srcset="" id="pic" onerror="errorImg(this)">
+            <img src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="" srcset="" id="pic">
         </div>
         <div class="down row justify-content-around align-items-center" style="top: 0%;height: 30%;">
             <div class="row" style="top: 0%;height: 50%;">
@@ -128,6 +128,11 @@
                     $("#pic2").attr("src", "/static/down.png");
                 }
                 
+                let settings = {
+                    "url": "/static/" + localStorage.LONGITUDE + " " + localStorage.LATITUDE + ".png"",
+                    "method": "GET",
+                    "timeout": 0
+                };
                 $("#pic").attr("src", "/static/" + localStorage.LONGITUDE + " " + localStorage.LATITUDE + ".png");
                 console.log(blue, red);
             });
